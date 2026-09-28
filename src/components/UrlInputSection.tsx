@@ -11,6 +11,7 @@ import {
   Film,
   Check,
 } from 'lucide-react';
+import { FALLBACK_SAMPLES } from '../services/videoService';
 
 interface SampleItem {
   id: string;
@@ -38,19 +39,21 @@ export const UrlInputSection: React.FC<UrlInputSectionProps> = ({
   onErrorDismiss,
 }) => {
   const [pasted, setPasted] = useState(false);
-  const [samples, setSamples] = useState<SampleItem[]>([]);
+  const [samples, setSamples] = useState<SampleItem[]>(FALLBACK_SAMPLES);
   const [validationWarning, setValidationWarning] = useState<string | null>(null);
 
-  // Load sample videos
+  // Load sample videos from backend if available, fallback already initialized
   useEffect(() => {
     fetch('/api/samples')
       .then((res) => res.json())
       .then((data) => {
-        if (data.samples) {
+        if (data.samples && data.samples.length > 0) {
           setSamples(data.samples);
         }
       })
-      .catch((err) => console.warn('Could not load samples:', err));
+      .catch(() => {
+        // Keeps FALLBACK_SAMPLES on static hosting like GitHub Pages
+      });
   }, []);
 
   const handlePaste = async () => {
