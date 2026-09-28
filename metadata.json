@@ -1,0 +1,7 @@
+{
+  "name": "YT Download",
+  "description": "Fast and modern web app to process and download authorized videos with customizable format and quality options.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
